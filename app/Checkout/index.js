@@ -38,6 +38,7 @@ import {
 import { LoadingPulse } from '../../components/Animation/animation';
 import RewardCard from '../../components/points/RewardCard';
 import { toPostTax, getGstRate } from '@/utils/taxHelper';
+import { BASE_URL } from '@/config/apiConfig';
 
 
 const FadeInView = ({ children, delay = 0, style }) => {
@@ -518,7 +519,7 @@ useEffect(() => {
   const fetchDealerDetails = async (cardCode) => {
     try {
       const response = await fetch(
-        `https://api.chesadentalcare.com/dealer?id=${cardCode}`
+        `${BASE_URL}/dealer?id=${cardCode}`
       );
       const data = await response.json();
 
@@ -942,7 +943,7 @@ useEffect(() => {
 
     if (userRole === 'coordinator') {
       const empIdResponse = await fetch(
-        `https://api.chesadentalcare.com/sales_employee_id/?name=${empName}`
+        `${BASE_URL}/sales_employee_id/?name=${empName}`
       );
       
       if (!empIdResponse.ok) {
@@ -958,7 +959,7 @@ useEffect(() => {
       }
 
       const leadsResponse = await fetch(
-        'https://api.chesadentalcare.com/open_leads'
+        `${BASE_URL}/open_leads`
       );
       
       if (!leadsResponse.ok) {
@@ -984,7 +985,7 @@ useEffect(() => {
     } else {
       // Non-coordinator role logic
       const empIdResponse = await fetch(
-        `https://api.chesadentalcare.com/sales_employee_id/?name=${empName}`
+        `${BASE_URL}/sales_employee_id/?name=${empName}`
       );
       
       if (!empIdResponse.ok) {
@@ -1000,7 +1001,7 @@ useEffect(() => {
       }
 
       const salesEmpCodeResponse = await fetch(
-        `https://api.chesadentalcare.com/salesEmpCode?id=${idToUse}`
+        `${BASE_URL}/salesEmpCode?id=${idToUse}`
       );
       
       if (!salesEmpCodeResponse.ok) {
@@ -1016,7 +1017,7 @@ useEffect(() => {
       }
 
       const leadsResponse = await fetch(
-        'https://api.chesadentalcare.com/open_leads'
+        `${BASE_URL}/open_leads`
       );
       
       if (!leadsResponse.ok) {
@@ -1287,7 +1288,7 @@ const handleSubmit = async () => {
     // API call functions
     const postOrderDetails = async () => {
       try {
-        const response = await fetch('https://api.chesadentalcare.com/add_order_details', {
+        const response = await fetch(`${BASE_URL}/add_order_details`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(addOrderDetails),
@@ -1316,7 +1317,7 @@ const handleSubmit = async () => {
           type: file.type || 'image/jpeg',
         });
 
-        const response = await fetch('https://api.chesadentalcare.com/upload_receipt', {
+        const response = await fetch(`${BASE_URL}/upload_receipt`, {
           method: 'POST',
           body: formDataPayload,
           headers: { 'Content-Type': 'multipart/form-data' },
@@ -1336,7 +1337,7 @@ const handleSubmit = async () => {
 
     const postOrderItems = async () => {
       try {
-        const response = await fetch('https://api.chesadentalcare.com/add_order', {
+        const response = await fetch(`${BASE_URL}/add_order`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ items: ordData, specs }),
@@ -1356,7 +1357,7 @@ const handleSubmit = async () => {
 
     const postSequenceId = async () => {
       try {
-        const response = await fetch('https://api.chesadentalcare.com/sequence', {
+        const response = await fetch(`${BASE_URL}/sequence`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

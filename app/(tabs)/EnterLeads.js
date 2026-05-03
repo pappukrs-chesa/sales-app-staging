@@ -25,6 +25,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
 import { usePoints } from '../../ContextAPI/PointsContext';
 import PointsContainer from '../../components/points/PointsContainer';
+import { BASE_URL } from '@/config/apiConfig';
 
 const { width, height } = Dimensions.get('window');
 
@@ -378,7 +379,7 @@ const EnterLeads = () => {
       }
 
       const response = await fetch(
-        "https://api.chesadentalcare.com/state_employee_info"
+        `${BASE_URL}/state_employee_info`
       );
       const employeeData = await response.json();
       let matchedEmployee = null;
@@ -447,7 +448,7 @@ const EnterLeads = () => {
   // Fetch products
   const fetchProducts = async () => {
     try {
-      const response = await fetch('https://api.chesadentalcare.com/crmpro');
+      const response = await fetch(`${BASE_URL}/crmpro`);
       const data = await response.json();
       const options = data.map((product) => ({
         id: product.id,
@@ -589,7 +590,7 @@ const EnterLeads = () => {
         remarks: remarks,
       };
 
-      const response = await fetch('https://api.chesadentalcare.com/new_lead_entry_test', {
+      const response = await fetch(`${BASE_URL}/new_lead_entry_test`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

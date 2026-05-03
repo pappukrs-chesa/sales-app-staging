@@ -28,6 +28,7 @@ import ProgressCard from '../../components/kpi/ProgressCard';
 import TrendChartCard from '../../components/kpi/TrendChartCard';
 import LeaderBoardCard from '../../components/kpi/LeaderBoardCard';
 import AchievementsCard from '../../components/kpi/AchievementsCard';
+import { BASE_URL } from '@/config/apiConfig';
 
 const { width, height } = Dimensions.get('window');
 
@@ -246,7 +247,7 @@ const KPIScreen = () => {
 
   const fetchSalesEmployees = async () => {
     try {
-      const response = await fetch('https://api.chesadentalcare.com/all_sales_employees_info');
+      const response = await fetch(`${BASE_URL}/all_sales_employees_info`);
       const data = await response.json();
       
       const salesPerson = await AsyncStorage.getItem('sales_person');
@@ -289,7 +290,7 @@ const KPIScreen = () => {
     try {
       let storedData = await AsyncStorage.getItem('InvoiceCard');
       if (!storedData) {
-        const response = await fetch('https://api.chesadentalcare.com/invoice_in_pipeline');
+        const response = await fetch(`${BASE_URL}/invoice_in_pipeline`);
         const data = await response.json();
         await AsyncStorage.setItem('InvoiceCard', JSON.stringify(data.data));
         setInvoiceData(data.data);
@@ -319,12 +320,12 @@ const KPIScreen = () => {
       if (!storedLeads || forceRefresh) {
         console.log('Fetching leads from API...');
         
-        const response = await fetch('https://api.chesadentalcare.com/open_leads');
+        const response = await fetch(`${BASE_URL}/open_leads`);
         if (!response.ok) {
           throw new Error('Failed to fetch leads data');
         }
         
-        const salesEmpResponse = await fetch('https://api.chesadentalcare.com/sales_emp_names');
+        const salesEmpResponse = await fetch(`${BASE_URL}/sales_emp_names`);
         if (!salesEmpResponse.ok) {
           throw new Error('Failed to fetch sales employee names');
         }
@@ -384,7 +385,7 @@ const KPIScreen = () => {
 
   const fetchForecastedData = async () => {
     try {
-      const response = await fetch('https://api.chesadentalcare.com/forecasted_orders');
+      const response = await fetch(`${BASE_URL}/forecasted_orders`);
       const data = await response.json();
       const currentDate = new Date();
       const endOfMonth = new Date(
@@ -406,7 +407,7 @@ const KPIScreen = () => {
     try {
       let bookingData = await AsyncStorage.getItem('BookingCard');
       if (!bookingData) {
-        const response = await fetch('https://api.chesadentalcare.com/booking_in_pipeline');
+        const response = await fetch(`${BASE_URL}/booking_in_pipeline`);
         const data = await response.json();
         await AsyncStorage.setItem('BookingCard', JSON.stringify(data));
         bookingData = JSON.stringify(data);
@@ -444,7 +445,7 @@ const KPIScreen = () => {
 
   const fetchCreditOrderData = async () => {
     try {
-      const response = await fetch('https://api.chesadentalcare.com/credit-order-details');
+      const response = await fetch(`${BASE_URL}/credit-order-details`);
       const data = await response.json();
       const { creditOrderDetailsEmployee } = data;
       setEmployeeData(creditOrderDetailsEmployee);

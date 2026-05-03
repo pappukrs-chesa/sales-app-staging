@@ -16,6 +16,7 @@ import moment from 'moment';
 import axios from 'axios';
 import { LinearGradient } from 'expo-linear-gradient';
 import Toast from 'react-native-toast-message';
+import { BASE_URL } from '@/config/apiConfig';
 
 const { width } = Dimensions.get('window');
 
@@ -115,7 +116,7 @@ const ForecastedOrders = ({
 
     try {
       const forecastResponse = await axios.post(
-        `https://api.chesadentalcare.com/add_order_forecast_points`,
+        `${BASE_URL}/add_order_forecast_points`,
         forecastData
       );
       

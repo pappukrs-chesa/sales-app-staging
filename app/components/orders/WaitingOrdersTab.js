@@ -18,6 +18,7 @@ import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CacheManager from '@/utils/cacheManager';
 import { getGstRate } from '@/utils/taxHelper';
+import { BASE_URL } from '@/config/apiConfig';
 
 const { width, height } = Dimensions.get('window');
 
@@ -54,7 +55,7 @@ const WaitingOrdersTab = () => {
     const computePostTaxTotals = async () => {
       try {
         if (Object.keys(taxCodeCache).length === 0) {
-          const res = await fetch('https://api.chesadentalcare.com/products_all');
+          const res = await fetch(`${BASE_URL}/products_all`);
           const products = await res.json();
           products.forEach(p => { taxCodeCache[p.code] = p.taxcode; });
         }
@@ -64,7 +65,7 @@ const WaitingOrdersTab = () => {
           orders.map(async (order) => {
             try {
               const orderId = order.orderno || order.id;
-              const res = await fetch(`https://api.chesadentalcare.com/idv_update?id=${orderId}`);
+              const res = await fetch(`${BASE_URL}/idv_update?id=${orderId}`);
               const items = await res.json();
               const postTaxTotal = items.reduce((sum, item) => {
                 const taxcode = taxCodeCache[item.product_code] || '';
@@ -97,7 +98,7 @@ const WaitingOrdersTab = () => {
         orders.map(async (order) => {
           try {
             const orderId = order.orderno || order.id;
-            const res = await fetch(`https://api.chesadentalcare.com/order_receipt/?id=${orderId}`);
+            const res = await fetch(`${BASE_URL}/order_receipt/?id=${orderId}`);
             if (res.ok) {
               const data = await res.json();
               if (data[0]?.payment_status === 'rejected') {
@@ -156,7 +157,7 @@ const WaitingOrdersTab = () => {
         }
       }
 
-      const response = await fetch('https://api.chesadentalcare.com/accounts_waiting_orders');
+      const response = await fetch(`${BASE_URL}/accounts_waiting_orders`);
       
       if (!response.ok) {
         if (response.status === 404) {
@@ -203,7 +204,7 @@ const WaitingOrdersTab = () => {
           continue;
         }
         
-        const response = await fetch(`https://api.chesadentalcare.com/sales_emp/${id}`);
+        const response = await fetch(`${BASE_URL}/sales_emp/${id}`);
         if (response.ok) {
           const salesEmpData = await response.json();
           salesEmpCache[id] = salesEmpData.SalesEmpName || 'Unknown';

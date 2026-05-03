@@ -9,6 +9,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { usePoints } from '../../ContextAPI/PointsContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BASE_URL } from '@/config/apiConfig';
 
 const AchievementsCard = () => {
   const [highestSalesData, setHighestSalesData] = useState('');
@@ -22,13 +23,13 @@ const AchievementsCard = () => {
   const fetchData = async () => {
     try {
       // Fetch highest sales data (same as web)
-      const salesResponse = await fetch('https://api.chesadentalcare.com/getHighestSalesData');
+      const salesResponse = await fetch(`${BASE_URL}/getHighestSalesData`);
       const salesData = await salesResponse.json();
       setHighestSalesData(salesData.highestSalesData.employeeName);
       setHighestSalesPerson(salesData.highestSalesPerson.employeeName);
       
       // Fetch highest activity points (same as web)
-      const activityResponse = await fetch('https://api.chesadentalcare.com/get_highest_activity_points');
+      const activityResponse = await fetch(`${BASE_URL}/get_highest_activity_points`);
       const activityData = await activityResponse.json();
       if (activityData && activityData.data) {
         setHighestActivityData(activityData.data.employee_name);

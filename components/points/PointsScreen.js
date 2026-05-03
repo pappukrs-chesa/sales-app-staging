@@ -13,6 +13,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { BASE_URL } from '@/config/apiConfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { usePoints } from '../../ContextAPI/PointsContext';
 
@@ -48,7 +49,7 @@ const PointsScreen = () => {
 
       // Try to fetch points history - if API doesn't exist, show empty state
       const response = await fetch(
-        `https://api.chesadentalcare.com/get_points_history?employeeid=${employeeId}`,
+        `${BASE_URL}/get_points_history?employeeid=${employeeId}`,
         {
           method: 'GET',
           headers: {

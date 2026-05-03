@@ -32,6 +32,7 @@ import CategorySelector from './CategorySection';
 import CompanySelector from './CompanySelection';
 import DealerSelection from './DealerSelection';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BASE_URL } from '@/config/apiConfig';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -282,7 +283,7 @@ const PurchasePage = () => {
 
   const fetchCompanies = async () => {
     try {
-      const response = await fetch('https://api.chesadentalcare.com/company');
+      const response = await fetch(`${BASE_URL}/company`);
       const data = await response.json();
       setCompanies(data);
       return data;
@@ -294,7 +295,7 @@ const PurchasePage = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch('https://api.chesadentalcare.com/category');
+      const response = await fetch(`${BASE_URL}/category`);
       const data = await response.json();
       setCategories(data);
       return data;
@@ -306,7 +307,7 @@ const PurchasePage = () => {
 
   const fetchAllProducts = async () => {
     try {
-      const response = await fetch('https://api.chesadentalcare.com/products_all');
+      const response = await fetch(`${BASE_URL}/products_all`);
       const data = await response.json();
       
       const productsWithDefaults = data.map(product => ({
@@ -349,7 +350,7 @@ const PurchasePage = () => {
 
   const fetchSapData = async (itemCodes) => {
     try {
-      const response = await fetch('https://api.chesadentalcare.com/products_sap', {
+      const response = await fetch(`${BASE_URL}/products_sap`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -368,7 +369,7 @@ const PurchasePage = () => {
   const fetchChairColors = async (name) => {
     try {
       const response = await fetch(
-        `https://api.chesadentalcare.com/chairs_color?name=${encodeURIComponent(name)}`
+        `${BASE_URL}/chairs_color?name=${encodeURIComponent(name)}`
       );
       
       if (response.ok) {

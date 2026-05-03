@@ -30,6 +30,7 @@ import { Calendar } from 'react-native-calendars';
 import Constants from "expo-constants";
 import OrderForecast from "@/components/points/OrderForecast";
 import { usePoints } from "../../ContextAPI/PointsContext";
+import { BASE_URL } from '@/config/apiConfig';
 
 const { width, height } = Dimensions.get("window");
 const isAndroid = Platform.OS === "android";
@@ -120,7 +121,7 @@ const OpenLeads = () => {
       // Fetch today's follow-up leads using EmployeeCode
       try {
         const response = await fetch(
-          `https://api.chesadentalcare.com/notifications/leads/today/${employeeCode}`
+          `${BASE_URL}/notifications/leads/today/${employeeCode}`
         );
 
         if (response.ok) {
@@ -231,7 +232,7 @@ const OpenLeads = () => {
         // console.log("No employee details found in AsyncStorage, fetching...");
 
         const empResponse = await fetch(
-          "https://api.chesadentalcare.com/sales_emp_names"
+          `${BASE_URL}/sales_emp_names`
         );
 
         if (!empResponse.ok) {
@@ -277,9 +278,9 @@ const OpenLeads = () => {
       }
 
       const [leadsResponse, teamMembersResponse] = await Promise.all([
-        fetch("https://api.chesadentalcare.com/open_leads"),
+        fetch(`${BASE_URL}/open_leads`),
         role === "coordinator"
-          ? fetch("https://api.chesadentalcare.com/all_sales_employees_info")
+          ? fetch(`${BASE_URL}/all_sales_employees_info`)
           : Promise.resolve(null),
       ]);
 
@@ -539,7 +540,7 @@ const OpenLeads = () => {
 
       // API call using the web implementation pattern
       const response = await axios.patch(
-        "https://api.chesadentalcare.com/patch_LeadDueDate",
+        `${BASE_URL}/patch_LeadDueDate`,
         data
       );
 
@@ -609,7 +610,7 @@ const OpenLeads = () => {
       ];
 
       const response = await axios.patch(
-        "https://api.chesadentalcare.com/patch_followup",
+        `${BASE_URL}/patch_followup`,
         arr
       );
 
@@ -724,7 +725,7 @@ const OpenLeads = () => {
         setStageKeys(JSON.parse(storedStageKeys));
       } else {
         const response = await fetch(
-          "https://api.chesadentalcare.com/getStageKey"
+          `${BASE_URL}/getStageKey`
         );
         if (!response.ok)
           throw new Error("Failed to fetch stage key definitions");

@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BASE_URL } from '@/config/apiConfig';
 
 const LeaderBoardCard = () => {
   const [loading, setLoading] = useState(true);
@@ -22,7 +23,7 @@ const LeaderBoardCard = () => {
       setLoading(true);
       
       // Fetch points data from API (same as web)
-      const response = await fetch('https://api.chesadentalcare.com/get_points_all');
+      const response = await fetch(`${BASE_URL}/get_points_all`);
       const data = await response.json();
       setPointsData(data);
     } catch (error) {

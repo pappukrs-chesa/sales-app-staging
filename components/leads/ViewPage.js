@@ -22,6 +22,7 @@ import { useLocalSearchParams, router } from 'expo-router';
 import { usePoints } from '../../ContextAPI/PointsContext';
 import RewardCard from '../points/RewardCard';
 import PointsContainer from '../points/PointsContainer';
+import { BASE_URL } from '@/config/apiConfig';
 
 const { width, height } = Dimensions.get('window');
 
@@ -127,7 +128,7 @@ const ViewPage = () => {
         if (storedStageKeys) {
           setStageKeys(JSON.parse(storedStageKeys));
         } else {
-          const response = await fetch('https://api.chesadentalcare.com/getStageKey');
+          const response = await fetch(`${BASE_URL}/getStageKey`);
           const data = await response.json();
           const stageKeys = data.stageKeys.value;
           setStageKeys(stageKeys);
@@ -153,13 +154,13 @@ const ViewPage = () => {
       
       // Fetch sales opportunity
       const salesResponse = await fetch(
-        `https://api.chesadentalcare.com/sales_opportunity/${SequentialNo}`
+        `${BASE_URL}/sales_opportunity/${SequentialNo}`
       );
       const salesData = await salesResponse.json();
       setSalesOpportunity(salesData);
 
       // Fetch products
-      const productResponse = await fetch('https://api.chesadentalcare.com/crmpro');
+      const productResponse = await fetch(`${BASE_URL}/crmpro`);
       const productList = await productResponse.json();
 
       // Map interest products
@@ -238,7 +239,7 @@ const ViewPage = () => {
 
     try {
       const response = await axios.patch(
-        'https://api.chesadentalcare.com/patch_followup',
+        `${BASE_URL}/patch_followup`,
         arr
       );
 
@@ -278,7 +279,7 @@ const ViewPage = () => {
       };
 
       const response = await axios.patch(
-        'https://api.chesadentalcare.com/patchloss',
+        `${BASE_URL}/patchloss`,
         payload
       );
 
@@ -311,7 +312,7 @@ const ViewPage = () => {
       const salesEmpCode = salesOpportunity.SalesOpportunitiesLines[0].DataOwnershipfield;
 
       const response = await axios.patch(
-        'https://api.chesadentalcare.com/patchwon',
+        `${BASE_URL}/patchwon`,
         {
           sapid: SequentialNo,
           start: startDate,
@@ -344,7 +345,7 @@ const ViewPage = () => {
   const handleEnquirySubmit = async () => {
     try {
       const response = await axios.patch(
-        'https://api.chesadentalcare.com/patch_interest_level',
+        `${BASE_URL}/patch_interest_level`,
         {
           sequenceId: SequentialNo,
           InterestLevel: 5,
@@ -381,7 +382,7 @@ const ViewPage = () => {
     setIsFetching(true);
     try {
       const response = await axios.get(
-        `https://api.chesadentalcare.com/DocEntry?id=${salesOrderNumber}`
+        `${BASE_URL}/DocEntry?id=${salesOrderNumber}`
       );
 
       const salesOrders = response.data.value;

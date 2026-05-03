@@ -17,6 +17,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as DocumentPicker from 'expo-document-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import axios from 'axios';
+import { BASE_URL } from '@/config/apiConfig';
 
 const { width } = Dimensions.get('window');
 
@@ -47,7 +48,7 @@ const PaymentUpdateModal = ({ visible, onClose, orderId, orderNumber }) => {
 
   const fetchBankAccounts = async () => {
     try {
-      const response = await axios.get('https://api.chesadentalcare.com/bank-accounts');
+      const response = await axios.get(`${BASE_URL}/bank-accounts`);
       if (response.data?.success && response.data?.data?.length > 0) {
         setBankAccounts(response.data.data.map(acc => ({
           code: acc.code || acc.value,
@@ -108,7 +109,7 @@ const PaymentUpdateModal = ({ visible, onClose, orderId, orderNumber }) => {
         });
       }
 
-      await axios.post('https://api.chesadentalcare.com/payment-update', formDataToSend, {
+      await axios.post(`${BASE_URL}/payment-update`, formDataToSend, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 

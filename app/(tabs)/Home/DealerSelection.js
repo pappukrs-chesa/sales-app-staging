@@ -16,6 +16,7 @@ import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import { useAuth } from '@/ContextAPI/AuthContext';
 import { useNavigation } from '@react-navigation/native';
+import { BASE_URL } from '@/config/apiConfig';
 
 const { width } = Dimensions.get('window');
 
@@ -89,7 +90,7 @@ const DealerSelection = ({ onDealerChange, onPriceListUpdate }) => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `https://api.chesadentalcare.com/sales_employees?name=${encodeURIComponent(salesPersonName)}`
+        `${BASE_URL}/sales_employees?name=${encodeURIComponent(salesPersonName)}`
       );
 
       if (response.data && response.data.length > 0) {
@@ -203,7 +204,7 @@ const DealerSelection = ({ onDealerChange, onPriceListUpdate }) => {
             await AsyncStorage.setItem('PriceList', '5');
             const cardCode = "C100021A";
             try {
-              const response = await fetch(`https://api.chesadentalcare.com/dealer?id=${cardCode}`);
+              const response = await fetch(`${BASE_URL}/dealer?id=${cardCode}`);
               if (!response.ok) throw new Error('Failed to fetch GJ dealer data');
               const gjDealerData = await response.json();
               await AsyncStorage.setItem('matchedMHDealerData', JSON.stringify(gjDealerData));

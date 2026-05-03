@@ -21,6 +21,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import CacheManager from '@/utils/cacheManager';
 import PaymentUpdateModal from '@/components/modals/PaymentUpdateModal';
 import { getGstRate, toPostTax } from '@/utils/taxHelper';
+import { BASE_URL } from '@/config/apiConfig';
 
 const { width, height } = Dimensions.get('window');
 
@@ -115,7 +116,7 @@ const AllOrdersTab = () => {
 
   const fetchRejectedPaymentUpdates = async () => {
     try {
-      const response = await fetch('https://api.chesadentalcare.com/payment-updates?status=rejected');
+      const response = await fetch(`${BASE_URL}/payment-updates?status=rejected`);
       if (!response.ok) return;
       const data = await response.json();
       const rejectedMap = {};
@@ -135,7 +136,7 @@ const AllOrdersTab = () => {
     fetchRejectedPaymentUpdates();
     // Fetch product catalog for taxcodes
     if (Object.keys(taxCodeCache).length === 0) {
-      fetch('https://api.chesadentalcare.com/products_all')
+      fetch(`${BASE_URL}/products_all`)
         .then(res => res.json())
         .then(products => {
           products.forEach(p => { taxCodeCache[p.code] = p.taxcode; });
@@ -189,7 +190,7 @@ const AllOrdersTab = () => {
         }
       }
 
-      const response = await fetch('https://api.chesadentalcare.com/get_all_orders');
+      const response = await fetch(`${BASE_URL}/get_all_orders`);
       
       if (!response.ok) {
         if (response.status === 404) {
@@ -202,7 +203,7 @@ const AllOrdersTab = () => {
       const data = await response.json();
       
       // Get sales employee info to filter orders
-      const salesEmpResponse = await fetch('https://api.chesadentalcare.com/sales_employees_info');
+      const salesEmpResponse = await fetch(`${BASE_URL}/sales_employees_info`);
       if (!salesEmpResponse.ok) {
         throw new Error('Failed to fetch sales employees data');
       }
@@ -437,12 +438,12 @@ const AllOrdersTab = () => {
         .join(", ");
 
       const cellularResponse = await fetch(
-        `https://api.chesadentalcare.com/get-cellular?CardName=${encodeURIComponent(order.CustomerName)}`
+        `${BASE_URL}/get-cellular?CardName=${encodeURIComponent(order.CustomerName)}`
       );
       const cellularData = await cellularResponse.json();
       const cellular = cellularData.Cellular || "";
 
-      const response = await fetch(`https://api.chesadentalcare.com//move_to_picklist_sql`, {
+      const response = await fetch(`${BASE_URL}//move_to_picklist_sql`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

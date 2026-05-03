@@ -22,6 +22,7 @@ import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { router, useLocalSearchParams } from 'expo-router';
 import CacheManager from '@/utils/cacheManager';
 import { getGstRate, toPostTax } from '@/utils/taxHelper';
+import { BASE_URL } from '@/config/apiConfig';
 
 const { width, height } = Dimensions.get('window');
 
@@ -148,7 +149,7 @@ const OrderDetailsScreen = () => {
 
   useEffect(() => {
     if (Object.keys(taxCodeCache).length === 0) {
-      fetch('https://api.chesadentalcare.com/products_all')
+      fetch(`${BASE_URL}/products_all`)
         .then(res => res.json())
         .then(products => {
           products.forEach(p => { taxCodeCache[p.code] = p.taxcode; });
@@ -163,7 +164,7 @@ const OrderDetailsScreen = () => {
     if (!id) return;
     const checkPaymentStatus = async () => {
       try {
-        const res = await fetch(`https://api.chesadentalcare.com/order_receipt/?id=${id}`);
+        const res = await fetch(`${BASE_URL}/order_receipt/?id=${id}`);
         if (res.ok) {
           const data = await res.json();
           if (data[0]) {
@@ -195,7 +196,7 @@ const OrderDetailsScreen = () => {
           type: reuploadFile.mimeType || 'image/jpeg',
         });
       }
-      const res = await fetch('https://api.chesadentalcare.com/reupload_receipt', {
+      const res = await fetch(`${BASE_URL}/reupload_receipt`, {
         method: 'POST',
         body: formData,
         headers: { 'Content-Type': 'multipart/form-data' },
@@ -343,8 +344,8 @@ const OrderDetailsScreen = () => {
       }
 
       console.log(`🌐 Fetching order details for ${id} from API`);
-      console.log(`🔗 Order API URL: https://api.chesadentalcare.com/order_detail/?id=${id}`);
-      console.log(`🔗 Product API URL: https://api.chesadentalcare.com/idv_update?id=${id}`);
+      console.log(`🔗 Order API URL: ${BASE_URL}/order_detail/?id=${id}`);
+      console.log(`🔗 Product API URL: ${BASE_URL}/idv_update?id=${id}`);
       
       // Add timeout and better error handling
       const timeoutPromise = new Promise((_, reject) =>
@@ -353,8 +354,8 @@ const OrderDetailsScreen = () => {
 
       // Follow the web version pattern: Always try both endpoints
       const fetchPromises = Promise.all([
-        fetch(`https://api.chesadentalcare.com/order_detail/?id=${id}`),
-        fetch(`https://api.chesadentalcare.com/idv_update?id=${id}`)
+        fetch(`${BASE_URL}/order_detail/?id=${id}`),
+        fetch(`${BASE_URL}/idv_update?id=${id}`)
       ]);
 
       const [orderResponse, productResponse] = await Promise.race([
@@ -377,7 +378,7 @@ const OrderDetailsScreen = () => {
         
         try {
           const allOrdersResponse = await Promise.race([
-            fetch('https://api.chesadentalcare.com/get_all_orders'),
+            fetch(`${BASE_URL}/get_all_orders`),
             timeoutPromise
           ]);
           
@@ -396,7 +397,7 @@ const OrderDetailsScreen = () => {
 
               // Resolve MySQL data (billing, phone, email, etc.) via sapcopy2 lookup
               try {
-                const mysqlResponse = await fetch(`https://api.chesadentalcare.com/get_orderId?ids=${id}`);
+                const mysqlResponse = await fetch(`${BASE_URL}/get_orderId?ids=${id}`);
                 if (mysqlResponse.ok) {
                   const mysqlData = await mysqlResponse.json();
                   if (mysqlData && mysqlData.length > 0) {
@@ -408,7 +409,7 @@ const OrderDetailsScreen = () => {
                     // Re-fetch products with correct MySQL id
                     const mysqlId = mysqlData[0].id;
                     try {
-                      const productRetry = await fetch(`https://api.chesadentalcare.com/idv_update?id=${mysqlId}`);
+                      const productRetry = await fetch(`${BASE_URL}/idv_update?id=${mysqlId}`);
                       if (productRetry.ok) {
                         const retryData = await productRetry.json();
                         if (Array.isArray(retryData) && retryData.length > 0) {
@@ -543,7 +544,7 @@ const OrderDetailsScreen = () => {
       // Resolve SalesEmp numeric code to employee name
       if (orderRecord?.SalesEmp && !orderRecord?.exe_name) {
         try {
-          const empResponse = await fetch('https://api.chesadentalcare.com/sales_employees_info');
+          const empResponse = await fetch(`${BASE_URL}/sales_employees_info`);
           if (empResponse.ok) {
             const empData = await empResponse.json();
             const match = empData.find(e => Number(e.id) === Number(orderRecord.SalesEmp));
@@ -568,7 +569,7 @@ const OrderDetailsScreen = () => {
       // Fetch SAP order data for post-tax prices
       if (orderRecord?.OrderNumber) {
         try {
-          const sapResponse = await fetch(`https://api.chesadentalcare.com/fetch_order_by_docnum/${orderRecord.OrderNumber}`);
+          const sapResponse = await fetch(`${BASE_URL}/fetch_order_by_docnum/${orderRecord.OrderNumber}`);
           if (sapResponse.ok) {
             const sapData = await sapResponse.json();
             setSapOrderData(sapData);
@@ -667,7 +668,7 @@ const OrderDetailsScreen = () => {
 
     try {
       console.log(`🧾 Fetching receipt for order ${id}`);
-      const response = await fetch(`https://api.chesadentalcare.com/order_receipt/?id=${id}`);
+      const response = await fetch(`${BASE_URL}/order_receipt/?id=${id}`);
       
       if (!response.ok) {
         const errorText = await response.text();
