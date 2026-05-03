@@ -31,6 +31,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAuth } from '@/ContextAPI/AuthContext';
 import axios from 'axios';
 import { getGstRate, toPostTax } from '../../../utils/taxHelper';
+import { BASE_URL } from '../../../config/apiConfig';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -62,11 +63,11 @@ const BASE_URLS = {
 };
 
 const API_ENDPOINTS = {
-  COMPANIES: 'https://api.chesadentalcare.com/company',
-  CATEGORIES: 'https://api.chesadentalcare.com/category',
-  PRODUCTS: 'https://api.chesadentalcare.com/products_all',
-  SAP_DATA: 'https://api.chesadentalcare.com/products_sap',
-  CHAIR_COLORS: 'https://api.chesadentalcare.com/chairs_color',
+  COMPANIES: `${BASE_URL}/company`,
+  CATEGORIES: `${BASE_URL}/category`,
+  PRODUCTS: `${BASE_URL}/products_all`,
+  SAP_DATA: `${BASE_URL}/products_sap`,
+  CHAIR_COLORS: `${BASE_URL}/chairs_color`,
 };
 
 // --- Data normalization ---
@@ -225,7 +226,7 @@ const fetchDealersBySalesPersonName = async (salesPersonName) => {
   try {
     setDealerLoading(true);
     const response = await axios.get(
-      `https://api.chesadentalcare.com/sales_employees?name=${encodeURIComponent(salesPersonName)}`
+      `${BASE_URL}/sales_employees?name=${encodeURIComponent(salesPersonName)}`
     );
 
     if (response.data && response.data.length > 0) {
@@ -301,7 +302,7 @@ const handleDealerChange = async (selectedDealerId) => {
           setPriceListName('CF');
           const cardCode = "C100021A";
           try {
-            const response = await fetch(`https://api.chesadentalcare.com/dealer?id=${cardCode}`);
+            const response = await fetch(`${BASE_URL}/dealer?id=${cardCode}`);
             if (!response.ok) throw new Error('Failed to fetch GJ dealer data');
             const gjDealerData = await response.json();
             await AsyncStorage.setItem('matchedMHDealerData', JSON.stringify(gjDealerData));
@@ -574,7 +575,7 @@ const renderDealerSelection = () => {
     try {
       const results = await Promise.all(
         comboPackages.map(async (pkg) => {
-          const url = `https://api.chesadentalcare.com/package?package_name=${encodeURIComponent(pkg.name)}`;
+          const url = `${BASE_URL}/package?package_name=${encodeURIComponent(pkg.name)}`;
           const response = await fetch(url);
           if (!response.ok) return null;
           const data = await response.json();
@@ -897,7 +898,7 @@ const renderDealerSelection = () => {
     if (product.cat_name === "Combo Package") {
       // Handle combo package logic
       const packageName = encodeURIComponent(product.name);
-      const url = `https://api.chesadentalcare.com/package?package_name=${packageName}`;
+      const url = `${BASE_URL}/package?package_name=${packageName}`;
 
       const response = await fetch(url);
       if (!response.ok) {

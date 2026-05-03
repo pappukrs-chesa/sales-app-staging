@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert } from 'react-native';
+import { BASE_URL } from '../config/apiConfig';
 
 const PointsContext = createContext();
 
@@ -101,7 +102,7 @@ return 1;
         console.log('Using alternative employee ID:', altEmployeeId);
       }
 
-      const response = await fetch('https://api.chesadentalcare.com/add_points', {
+      const response = await fetch(`${BASE_URL}/add_points`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

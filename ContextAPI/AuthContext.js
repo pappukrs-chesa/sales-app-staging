@@ -4,6 +4,7 @@ import { Alert } from 'react-native';
 import { useCart } from './CartContext';
 import { router } from 'expo-router';
 import CacheManager from '../utils/cacheManager';
+import { BASE_URL } from '../config/apiConfig';
 
 const AuthContext = createContext();
 
@@ -96,7 +97,7 @@ export const AuthProvider = ({ children }) => {
 };
 
 const response = await fetch(
-  'https://api.chesadentalcare.com/login_sales_test',
+  `${BASE_URL}/login_sales_test`,
   {
     method: 'POST',
     headers: {
