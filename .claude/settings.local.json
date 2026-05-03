@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/IT/Desktop/sales-final/src/components/Pages/AllOrders/**)",
+      "Read(//c/Users/IT/Desktop/sales-final/src/components/Pages/OpenLead/**)",
+      "Read(//c/Users/IT/Desktop/sales-final/src/components/Pages/**)",
+      "Bash(npm run dev:*)",
+      "Bash(grep:*)",
+      "Bash(mkdir:*)",
+      "Bash(npx jest:*)",
+      "Bash(npm install:*)",
+      "Bash(sed:*)",
+      "Bash(curl:*)",
+      "Bash(test:*)",
+      "Bash(node:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts",
+    "nativewind-env.d.ts",
+    "app/_layout.tsx",
+    "app/(tabs)/_layout.js",
+    "assets/constants/Headers/ChesaHeader.js",
+    "assets/constants/CustomTabBar.js",
+    "app/(tabs)/index.js",
+    "app/(tabs)/two.js"
+  ],
+  "extends": "expo/tsconfig.base"
+}

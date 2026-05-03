@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "744385357298",
+    "project_id": "chesa-mobile-app",
+    "storage_bucket": "chesa-mobile-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:744385357298:android:38868abfb66947d421376b",
+        "android_client_info": {
+          "package_name": "com.chesadentalcare.chesa_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJgsZdA_vpNYdE4st6f0fQDfgfz9nuXe0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:744385357298:android:e9abd2963a7ca3b421376b",
+        "android_client_info": {
+          "package_name": "com.chesadentalcare.salesapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJgsZdA_vpNYdE4st6f0fQDfgfz9nuXe0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
