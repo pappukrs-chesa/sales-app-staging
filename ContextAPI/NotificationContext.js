@@ -7,9 +7,7 @@ import { useAuth } from './AuthContext';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
-
-// API Configuration - Always use production URL
-const API_BASE_URL = 'https://api.chesadentalcare.com';
+import { BASE_URL as API_BASE_URL } from '../config/apiConfig';
 
 const NotificationContext = createContext({});
 

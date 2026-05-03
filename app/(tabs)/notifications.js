@@ -17,8 +17,7 @@ import { router } from 'expo-router';
 import moment from 'moment';
 import Constants from 'expo-constants';
 import axios from 'axios';
-
-const API_BASE_URL = 'https://api.chesadentalcare.com';
+import { BASE_URL as API_BASE_URL } from '../../config/apiConfig';
 
 const NotificationsScreen = () => {
   const [notifications, setNotifications] = useState([]);

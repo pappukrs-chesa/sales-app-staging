@@ -21,8 +21,7 @@ import moment from 'moment';
 import Constants from 'expo-constants';
 import axios from 'axios';
 import { Picker } from '@react-native-picker/picker';
-
-const API_BASE_URL = 'https://api.chesadentalcare.com';
+import { BASE_URL as API_BASE_URL } from '../../config/apiConfig';
 
 const ServiceScreen = () => {
   const [serviceCalls, setServiceCalls] = useState([]);

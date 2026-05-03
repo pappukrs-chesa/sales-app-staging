@@ -12,9 +12,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import { BASE_URL as API_BASE_URL } from '../../config/apiConfig';
 
 const { width } = Dimensions.get('window');
-const API_BASE_URL = 'https://api.chesadentalcare.com';
 
 const allTabs = [
   { name: 'index', label: 'Leads', icon: 'home' },
